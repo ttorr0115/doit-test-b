@@ -6,7 +6,6 @@ const app = express();
 const PORT = process.env.PORT || 3403;
 
 app.use(express.urlencoded({ extended: true }));
-// POST /todo/1?_method=PUT → PUT /todo/1 로 처리
 app.use(methodOverride('_method'));
 app.use(express.static(path.join(__dirname, 'public')));
 
@@ -27,6 +26,7 @@ app.post('/todo', (req, res) => {
   if (text) todos.push({ id: nextId++, text });
   res.redirect('/');
 });
+
 // 7단계: PUT 라우트 (할 일 수정)
 app.put('/todo/:id', (req, res) => {
   const id = parseInt(req.params.id);
@@ -46,6 +46,9 @@ app.delete('/todo/:id', (req, res) => {
   todos = todos.filter(t => t.id !== id);
   res.json({ success: true });
 });
+
 app.listen(PORT, () => {
   console.log(`http://localhost:${PORT}`);
 });
+
+module.exports = app;
